@@ -46,6 +46,26 @@ class AirQualityAnalyzer:
         if so2_value != 'Nil' and so2_value.get('v', 'Nil') > self.max_so2_value:
             messagebox.showwarning('High SO2 Level', 'The SO2 gas level is bad for humans!')  
 
+# Plotting the pie chart
+    def plot_pie_chart(self):
+        plt.figure(figsize=(8, 6))  # Creating a figure for the pie chart
+        plt.pie(self.values, labels=self.pollutants)  # Creating the pie chart
+        plt.title(f'Air pollutants and their probable amount in the atmosphere {self.city}\n')
+        plt.axis('equal') 
+        plt.show()  
+
+# read csv to numpy array
+    def read_csv_to_numpy_array(self):
+        # Read the CSV file into a list of rows
+        with open(self.csv_file_path, 'r') as file:
+            lines = file.readlines()
+        # Remove any leading/trailing whitespaces and split by comma to get values
+        data = [line.strip().split(',') for line in lines]
+        # Convert the list of lists to a NumPy array
+        np_array = np.array(data) 
+
+        return np_array
+
 
 def main():
     city = 'pardubice'  # Specifying the city for air quality analysis
@@ -71,6 +91,9 @@ def main():
     print(f'pm25: {pm25}')  
 
     analyzer.check_so2_gas_level() 
+    analyzer.plot_pie_chart()  # Plotting the pie chart
+    
+    numpy_array = analyzer.read_csv_to_numpy_array()
 
 if __name__ == '__main__':
     root = tk.Tk()
