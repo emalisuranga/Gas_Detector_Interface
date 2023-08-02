@@ -15,6 +15,7 @@ class AirQualityAnalyzer:
         self.iaqi = None  # Variable to store individual Air Quality Index (AQI) values for pollutants
         self.pollutants = []  # List to store the names of pollutants
         self.values = []  # List to store the corresponding values of pollutants
+        self.max_so2_value = 5
 
 # Retrieving the air quality data
     def get_air_quality_data(self):
@@ -38,6 +39,12 @@ class AirQualityAnalyzer:
  # Getting the AQI value for pollutant
     def get_pollutant_value(self, pollutant):
         return self.iaqi.get(pollutant, 'Nil')  
+    
+# Checking the SO2 gas level and displaying a pop-up message if it's harmful
+    def check_so2_gas_level(self):
+        so2_value = self.get_pollutant_value('so2')  
+        if so2_value != 'Nil' and so2_value.get('v', 'Nil') > self.max_so2_value:
+            messagebox.showwarning('High SO2 Level', 'The SO2 gas level is bad for humans!')  
 
 
 def main():
@@ -62,6 +69,8 @@ def main():
     print(f'sulphur: {so2}')  
     print(f'pm10: {pm10}')  
     print(f'pm25: {pm25}')  
+
+    analyzer.check_so2_gas_level() 
 
 if __name__ == '__main__':
     root = tk.Tk()
