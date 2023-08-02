@@ -48,8 +48,11 @@ class AirQualityAnalyzer:
 
 # Plotting the pie chart
     def plot_pie_chart(self):
+        explode = [0] * len(self.pollutants)  
+        max_index = self.values.index(max(self.values))  
+        explode[max_index] = 0.1 
         plt.figure(figsize=(8, 6))  # Creating a figure for the pie chart
-        plt.pie(self.values, labels=self.pollutants)  # Creating the pie chart
+        plt.pie(self.values, labels=self.pollutants, explode=explode)  # Creating the pie chart
         plt.title(f'Air pollutants and their probable amount in the atmosphere {self.city}\n')
         plt.axis('equal') 
         plt.show()  
@@ -94,6 +97,8 @@ def main():
     analyzer.plot_pie_chart()  # Plotting the pie chart
     
     numpy_array = analyzer.read_csv_to_numpy_array()
+    print("Old Air Quality:")
+    print(numpy_array)
 
 if __name__ == '__main__':
     root = tk.Tk()
